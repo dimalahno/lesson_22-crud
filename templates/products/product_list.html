@@ -1,0 +1,38 @@
+{% extends "products/base.html" %}
+{% load static %}
+
+{% block title %}Список товаров{% endblock %}
+
+{% block content %}
+<h2>Список товаров</h2>
+
+<table class="product-table">
+    <thead>
+        <tr>
+            <th>Изображение</th>
+            <th>Название</th>
+            <th>Цена</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+            </td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.price|floatformat:2 }} ₽</td>
+            <td>
+                <a href="{% url 'products:product_detail' product.id %}" class="btn-details">Подробнее</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">Товары отсутствуют.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
