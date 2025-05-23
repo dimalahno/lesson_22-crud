@@ -1,0 +1,54 @@
+{% extends "products/base.html" %}
+{% load form_tags %}
+{% load static %}
+{% block title %}Форма товара{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">
+        {% if object %}
+            Редактировать товар: {{ object.name }}
+        {% else %}
+            Добавить товар
+        {% endif %}
+    </h2>
+
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="mb-3">
+            <label for="{{ form.name.id_for_label }}" class="form-label">Название</label>
+            {{ form.name|add_class:"form-control" }}
+            {{ form.name.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.category.id_for_label }}" class="form-label">Категория</label>
+            {{ form.category|add_class:"form-select" }}
+            {{ form.category.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.price.id_for_label }}" class="form-label">Цена</label>
+            {{ form.price|add_class:"form-control" }}
+            {{ form.price.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.description.id_for_label }}" class="form-label">Описание</label>
+            {{ form.description|add_class:"form-control" }}
+            {{ form.description.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.image.id_for_label }}" class="form-label">Изображение</label>
+            {{ form.image|add_class:"form-control" }}
+            {{ form.image.errors }}
+        </div>
+
+        <button type="submit" class="btn btn-success">💾 Сохранить</button>
+        <a href="{% url 'products:product_list' %}" class="btn btn-secondary">↩️ Назад</a>
+    </form>
+</div>
+{% endblock %}

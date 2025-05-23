@@ -1,39 +1,35 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from .forms import CategoryForm
+from .forms import CategoryForm, ProductForm
 from .models import Product, Category
-from django.views.generic import ListView, DetailView
 
 
-def category_list(request):
-    categories = Category.objects.all()
-    return render(request, "products/category_list.html", {"categories": categories})
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'products/category_list.html'
+    context_object_name = 'categories'
 
-def category_create(request):
-    if request.method == "POST":
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("products:category_list")
-    else:
-        form = CategoryForm()
-    return render(request, "products/category_form.html", {"form": form})
 
-def category_update(request, pk):
-    category = get_object_or_404(Category, pk=pk)
-    if request.method == "POST":
-        form = CategoryForm(request.POST, instance=category)
-        if form.is_valid():
-            form.save()
-            return redirect("products:category_list")
-    else:
-        form = CategoryForm(instance=category)
-    return render(request, "products/category_form.html", {"form": form})
+class CategoryCreateView(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'products/category_form.html'
+    success_url = reverse_lazy('products:category_list')
 
-def category_delete(request, pk):
-    category = get_object_or_404(Category, pk=pk)
-    category.delete()
-    return redirect("products:category_list")
+
+class CategoryUpdateView(UpdateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'products/category_form.html'
+    success_url = reverse_lazy('products:category_list')
+
+
+class CategoryDeleteView(DeleteView):
+    model = Category
+    template_name = 'products/category_confirm_delete.html'
+    success_url = reverse_lazy('products:category_list')
+
 
 
 class ProductListView(ListView):
@@ -52,3 +48,22 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = "products/product_detail.html"
     context_object_name = "product"
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'products/product_form.html'
+    success_url = reverse_lazy('products:product_list')
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'products/product_form.html'
+    success_url = reverse_lazy('products:product_list')
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'products/product_confirm_delete.html'
+    success_url = reverse_lazy('products:product_list')

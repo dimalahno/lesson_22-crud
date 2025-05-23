@@ -1,0 +1,20 @@
+{% extends "products/base.html" %}
+{% block title %}Удаление категории{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Удаление категории</h2>
+
+    <div class="alert alert-warning">
+        Вы уверены, что хотите удалить категорию <strong>"{{ object.name }}"</strong>?
+        <br>
+        <span class="text-danger">Это действие необратимо.</span>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">🗑️ Удалить</button>
+        <a href="{% url 'products:category_list' %}" class="btn btn-secondary">↩️ Отмена</a>
+    </form>
+</div>
+{% endblock %}

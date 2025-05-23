@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
 
@@ -16,7 +17,12 @@ class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название товара")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products", verbose_name="Категория")
     description = models.TextField(verbose_name="Описание товара")
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(0.01)],
+        verbose_name="Цена"
+    )
     image = models.ImageField(upload_to="products/", verbose_name="Изображение")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(default=timezone.now, verbose_name="Дата создания")
