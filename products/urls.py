@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from .views import ProductListView, ProductDetailView, ProductCreateView, ProductUpdateView, ProductDeleteView, \
-    CategoryListView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView
+    CategoryListView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView, ProductAnalyticsView
 
 app_name = 'products'
 
@@ -18,6 +18,8 @@ urlpatterns = [
     path('categories/create/', CategoryCreateView.as_view(), name='category_create'),
     path('categories/<int:pk>/edit/', CategoryUpdateView.as_view(), name='category_edit'),
     path('categories/<int:pk>/delete/', CategoryDeleteView.as_view(), name='category_delete'),
+
+    path('analytics/', ProductAnalyticsView.as_view(), name='product_analytics'),
 ]
 
 # Добавляем возможность отображения изображений

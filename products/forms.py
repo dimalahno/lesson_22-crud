@@ -12,6 +12,14 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'category', 'price', 'description', 'image']
+        widgets = {
+            'price': forms.NumberInput(attrs={
+                'min': '0',
+                'step': '0.01',
+                'required': True,
+                'class': 'form-control'
+            }),
+        }
 
     def clean_price(self):
         price = self.cleaned_data['price']
